@@ -1,11 +1,15 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:qur_an/widgets/all_surah.dart';
-import 'package:qur_an/widgets/scaffold_gradient.dart';
+import 'package:localstorage/localstorage.dart';
 
-class Home extends StatelessWidget {
+class Home extends StatefulWidget {
   const Home({super.key});
+  @override
+  State<Home> createState() => _HomeState();
+}
 
+class _HomeState extends State<Home> {
   @override
   Widget build(BuildContext context) {
     return Column(
@@ -32,7 +36,7 @@ class Home extends StatelessWidget {
             ),
             child: Stack(
               children: [
-                const Padding(
+                Padding(
                   padding: EdgeInsets.all(8.0),
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
@@ -40,7 +44,7 @@ class Home extends StatelessWidget {
                       Text("Terakhir dibaca",
                           style: TextStyle(fontSize: 18, color: Colors.white)),
                       Text(
-                        "Surah : Al-Baqarah",
+                        "Surah : ${localStorage.getItem('namaSurah')}",
                       )
                     ],
                   ),

@@ -1,9 +1,8 @@
-import 'dart:ffi';
-
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:just_audio/just_audio.dart';
 import 'package:loading_animation_widget/loading_animation_widget.dart';
+import 'package:localstorage/localstorage.dart';
 import 'package:qur_an/models/surah.dart';
 import 'package:qur_an/services/detail_surah_service.dart';
 import 'package:qur_an/widgets/item_ayat.dart';
@@ -29,6 +28,8 @@ class _DetailSurahState extends State<DetailSurah> {
     });
     final result = await DetailSurahService.fetchSurah(nomor);
 
+    localStorage.setItem('namaSurah', result.data.namaLatin);
+    localStorage.setItem('nomorSurah', result.data.nomor.toString());
     setState(() {
       surah = result;
       isLoading = false;
@@ -39,6 +40,9 @@ class _DetailSurahState extends State<DetailSurah> {
   void initState() {
     super.initState();
     fetchSurah();
+
+    // await initLocalStorage();
+    // print(surah);
     player.playerStateStream.listen((event) {
       printError(info: event.processingState.toString());
       switch (event.processingState) {
@@ -74,7 +78,6 @@ class _DetailSurahState extends State<DetailSurah> {
   @override
   Widget build(BuildContext context) {
     return ScaffoldGradient(
-        showBottomNav: false,
         title: surah?.data.namaLatin ?? "",
         body: isLoading
             ? Center(

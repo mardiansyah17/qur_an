@@ -17,6 +17,7 @@ class BottomNavigation extends StatelessWidget {
       },
       type: BottomNavigationBarType.fixed,
       backgroundColor: const Color(0xFF121931),
+
       // backgroundColor: Colors.transparent,
       unselectedItemColor: const Color.fromARGB(255, 179, 208, 218),
       selectedItemColor: const Color(0xFF65D6FC),

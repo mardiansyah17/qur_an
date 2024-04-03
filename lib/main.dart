@@ -1,11 +1,15 @@
 import 'package:flutter/material.dart';
 import 'package:get/route_manager.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:localstorage/localstorage.dart';
 import 'package:qur_an/screens/home.dart';
 import 'package:qur_an/widgets/scaffold_gradient.dart';
 // import 'package:qur_an/screens/home.dart';
 
-void main() {
+Future<void> main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+  await initLocalStorage();
+
   runApp(const MyApp());
 }
 
@@ -34,8 +38,6 @@ class _MyAppState extends State<MyApp> {
                 bodyMedium: TextStyle(
               color: Colors.white,
             ))),
-        home: const ScaffoldGradient(
-          body: Home(),
-        ));
+        home: const ScaffoldGradient());
   }
 }

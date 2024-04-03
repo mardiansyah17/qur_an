@@ -1,16 +1,19 @@
 import 'package:flutter/material.dart';
-import 'package:get/route_manager.dart';
+import 'package:qur_an/screens/home.dart';
+import 'package:qur_an/screens/jadwal_sholat.dart';
 import 'package:qur_an/widgets/bottom_navigation.dart';
 
 class ScaffoldGradient extends StatefulWidget {
-  const ScaffoldGradient(
-      {super.key,
-      required this.body,
-      this.title = '',
-      this.showBottomNav = true});
-  final Widget body;
+  const ScaffoldGradient({
+    Key? key,
+    this.title = '',
+    this.showBottomNav = true,
+    this.body,
+  }) : super(key: key);
+
   final String title;
   final bool showBottomNav;
+  final Widget? body;
 
   @override
   State<ScaffoldGradient> createState() => _ScaffoldGradientState();
@@ -18,6 +21,11 @@ class ScaffoldGradient extends StatefulWidget {
 
 class _ScaffoldGradientState extends State<ScaffoldGradient> {
   int _selectedIndex = 0;
+
+  final _pages = [
+    const Home(),
+    const JadwalSholat(),
+  ];
 
   void onItemTapped(int index) {
     setState(() {
@@ -28,19 +36,21 @@ class _ScaffoldGradientState extends State<ScaffoldGradient> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      // backgroundColor: background,
       extendBodyBehindAppBar: true,
       appBar: widget.title.isNotEmpty
           ? AppBar(
               iconTheme: const IconThemeData(color: Color(0xFF65D6FC)),
               title: Text(
                 widget.title,
-                style: const TextStyle(fontSize: 16, color: Color(0xFF65D6FC)),
+                style: const TextStyle(
+                  fontSize: 16,
+                  color: Color(0xFF65D6FC),
+                ),
               ),
               backgroundColor: Colors.transparent,
             )
           : null,
-      bottomNavigationBar: widget.showBottomNav
+      bottomNavigationBar: widget.body == null
           ? BottomNavigation(
               onTap: onItemTapped,
               selectedIndex: _selectedIndex,
@@ -52,16 +62,22 @@ class _ScaffoldGradientState extends State<ScaffoldGradient> {
         width: double.infinity,
         decoration: const BoxDecoration(
           gradient: LinearGradient(
-              begin: Alignment.topCenter,
-              end: Alignment.bottomCenter,
-              colors: [Color(0xFF112095), Color(0xFF092052)]),
+            begin: Alignment.topCenter,
+            end: Alignment.bottomCenter,
+            colors: [
+              Color.fromARGB(255, 51, 67, 190),
+              Color.fromARGB(255, 24, 53, 116)
+            ],
+          ),
         ),
-        child: SafeArea(
-          child: widget.body,
+        child: Stack(
+          clipBehavior: Clip.none,
+          children: [
+            SafeArea(
+              child: widget.body ?? _pages.elementAt(_selectedIndex),
+            ),
+          ],
         ),
-        // child: Container(
-        //   child: Text('mantap'),
-        // ),
       ),
     );
   }

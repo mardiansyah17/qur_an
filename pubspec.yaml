@@ -45,6 +45,8 @@ dependencies:
   loading_animation_widget:
   flutter_html: ^3.0.0-beta.2
   just_audio: ^0.9.36
+  glassmorphism: ^3.0.0
+  localstorage: ^5.0.0
   
 dev_dependencies:
   flutter_test:

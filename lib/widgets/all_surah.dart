@@ -5,6 +5,7 @@ import 'package:get/get.dart';
 import 'package:qur_an/models/list_surah.dart';
 import 'package:qur_an/screens/detail_surah.dart';
 import 'package:qur_an/services/surah_services.dart';
+import 'package:qur_an/utils/app_colors.dart';
 import 'package:qur_an/widgets/number.dart';
 import 'package:loading_animation_widget/loading_animation_widget.dart';
 
@@ -88,12 +89,14 @@ class _AllSurahState extends State<AllSurah> {
                                 Text(
                                   surah.namaLatin,
                                   style: const TextStyle(
-                                      fontSize: 18, color: Color(0xFF65D6FC)),
+                                    fontSize: 18,
+                                  ),
                                 ),
                                 Text(
                                   surah.nama,
                                   style: const TextStyle(
-                                      fontSize: 18, color: Color(0xFF65D6FC)),
+                                      fontSize: 18,
+                                      color: AppColors.primaryColor),
                                 ),
                               ],
                             ),
