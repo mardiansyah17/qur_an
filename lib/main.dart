@@ -3,6 +3,7 @@ import 'package:get/route_manager.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:localstorage/localstorage.dart';
 import 'package:qur_an/screens/home.dart';
+import 'package:qur_an/screens/select_city.dart';
 import 'package:qur_an/widgets/scaffold_gradient.dart';
 // import 'package:qur_an/screens/home.dart';
 
@@ -26,6 +27,7 @@ class _MyAppState extends State<MyApp> {
   Widget build(BuildContext context) {
     return GetMaterialApp(
         // title: "mantap",
+
         debugShowCheckedModeBanner: false,
         theme: ThemeData(
             useMaterial3: true,

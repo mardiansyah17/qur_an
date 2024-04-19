@@ -5,7 +5,6 @@ import 'package:http/http.dart' as http;
 
 class SurahService {
   static const String baseUrl = "https://equran.id/api/v2/surat";
-
   static Future<List<ListSurah>> fetchSurah() async {
     final response = await http.get(Uri.parse(baseUrl));
     final result = jsonDecode(response.body);

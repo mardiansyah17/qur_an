@@ -1,19 +1,22 @@
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 import 'package:qur_an/screens/home.dart';
 import 'package:qur_an/screens/jadwal_sholat.dart';
+import 'package:qur_an/screens/select_city.dart';
+import 'package:qur_an/widgets/app_bar_title_text.dart';
 import 'package:qur_an/widgets/bottom_navigation.dart';
 
 class ScaffoldGradient extends StatefulWidget {
   const ScaffoldGradient({
     Key? key,
-    this.title = '',
+    this.title,
     this.showBottomNav = true,
     this.body,
   }) : super(key: key);
 
-  final String title;
   final bool showBottomNav;
   final Widget? body;
+  final Widget? title;
 
   @override
   State<ScaffoldGradient> createState() => _ScaffoldGradientState();
@@ -36,17 +39,12 @@ class _ScaffoldGradientState extends State<ScaffoldGradient> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      // resizeToAvoidBottomInset: false,
       extendBodyBehindAppBar: true,
-      appBar: widget.title.isNotEmpty
+      appBar: widget.title != null
           ? AppBar(
               iconTheme: const IconThemeData(color: Color(0xFF65D6FC)),
-              title: Text(
-                widget.title,
-                style: const TextStyle(
-                  fontSize: 16,
-                  color: Color(0xFF65D6FC),
-                ),
-              ),
+              title: widget.title,
               backgroundColor: Colors.transparent,
             )
           : null,
@@ -75,6 +73,7 @@ class _ScaffoldGradientState extends State<ScaffoldGradient> {
           children: [
             SafeArea(
               child: widget.body ?? _pages.elementAt(_selectedIndex),
+              // child: SelectCity(),
             ),
           ],
         ),
