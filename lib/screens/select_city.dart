@@ -1,7 +1,10 @@
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 import 'package:loading_animation_widget/loading_animation_widget.dart';
+import 'package:localstorage/localstorage.dart';
 import 'package:qur_an/models/ListCity.dart';
 import 'package:qur_an/models/city.dart';
+import 'package:qur_an/screens/jadwal_sholat.dart';
 import 'package:qur_an/services/city_service.dart';
 import 'package:qur_an/utils/app_colors.dart';
 import 'package:qur_an/widgets/scaffold_gradient.dart';
@@ -75,18 +78,24 @@ class ItemCity extends StatelessWidget {
   final ListCity item;
   @override
   Widget build(BuildContext context) {
-    return Column(
-      children: [
-        Container(
-          decoration: const BoxDecoration(
-            border: Border(bottom: BorderSide(color: AppColors.secondaryColor)),
-          ),
-          width: double.infinity,
-          padding: EdgeInsets.only(bottom: 5, left: 5, top: 5),
-          margin: EdgeInsets.only(bottom: 10),
-          child: Text(item.lokasi),
-        )
-      ],
+    return GestureDetector(
+      onTap: () => {
+        Get.toNamed('/jadwal_sholat'),
+        localStorage.setItem('city_id', item.id),
+        localStorage.setItem('city_name', item.lokasi)
+      },
+      child: Container(
+        decoration: const BoxDecoration(
+          border: Border(bottom: BorderSide(color: AppColors.secondaryColor)),
+        ),
+        width: double.infinity,
+        padding: EdgeInsets.only(bottom: 5, left: 5, top: 5),
+        margin: EdgeInsets.only(bottom: 10),
+        child: Text(
+          item.lokasi,
+          style: TextStyle(fontSize: 15),
+        ),
+      ),
     );
   }
 }

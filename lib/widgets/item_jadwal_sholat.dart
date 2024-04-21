@@ -1,15 +1,17 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
 import 'package:qur_an/utils/app_colors.dart';
 
 class ItemJadwalSholat extends StatefulWidget {
   const ItemJadwalSholat({
     super.key,
     this.isActivated = false,
+    required this.title,
+    this.time = "1:00",
   });
 
   final bool isActivated;
+  final String title;
+  final String time;
 
   @override
   State<ItemJadwalSholat> createState() => _ItemJadwalSholatState();
@@ -43,14 +45,14 @@ class _ItemJadwalSholatState extends State<ItemJadwalSholat> {
                   size: 17,
                 ),
               ),
-              Text("Imsak",
+              Text(widget.title,
                   style: TextStyle(
                     fontSize: 16,
                     color: color,
                   )),
             ],
           ),
-          Text("12:00",
+          Text(widget.time,
               style: TextStyle(
                 fontSize: 16,
                 color: color,

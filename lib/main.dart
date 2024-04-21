@@ -1,17 +1,17 @@
 import 'package:flutter/material.dart';
 import 'package:get/route_manager.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:intl/date_symbol_data_local.dart';
 import 'package:localstorage/localstorage.dart';
-import 'package:qur_an/screens/home.dart';
-import 'package:qur_an/screens/select_city.dart';
-import 'package:qur_an/widgets/scaffold_gradient.dart';
+import 'package:qur_an/routes.dart';
+import 'package:qur_an/utils/themes.dart';
+import 'package:qur_an/widgets/tab_wraper.dart';
 // import 'package:qur_an/screens/home.dart';
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await initLocalStorage();
-
-  runApp(const MyApp());
+  initializeDateFormatting().then((_) => runApp(const MyApp()));
 }
 
 class MyApp extends StatefulWidget {
@@ -26,20 +26,20 @@ class _MyAppState extends State<MyApp> {
   @override
   Widget build(BuildContext context) {
     return GetMaterialApp(
-        // title: "mantap",
-
-        debugShowCheckedModeBanner: false,
-        theme: ThemeData(
-            useMaterial3: true,
-            fontFamily: GoogleFonts.poppins().fontFamily,
-            appBarTheme: AppBarTheme(
-                color: Colors.transparent,
-                titleTextStyle: GoogleFonts.poppins()
-                    .copyWith(color: Colors.white, fontSize: 20)),
-            textTheme: const TextTheme(
-                bodyMedium: TextStyle(
-              color: Colors.white,
-            ))),
-        home: const ScaffoldGradient());
+      debugShowCheckedModeBanner: false,
+      theme: ThemeData(
+          useMaterial3: true,
+          fontFamily: GoogleFonts.poppins().fontFamily,
+          appBarTheme: AppBarTheme(
+              color: Colors.transparent,
+              titleTextStyle: GoogleFonts.poppins()
+                  .copyWith(color: Colors.green, fontSize: 20)),
+          textTheme: const TextTheme(
+              bodyMedium: TextStyle(
+            color: Colors.white,
+          ))),
+      initialRoute: '/',
+      getPages: appRoutes(),
+    );
   }
 }

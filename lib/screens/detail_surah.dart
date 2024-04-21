@@ -4,10 +4,10 @@ import 'package:flutter/widgets.dart';
 import 'package:get/get.dart';
 import 'package:just_audio/just_audio.dart';
 import 'package:loading_animation_widget/loading_animation_widget.dart';
-import 'package:localstorage/localstorage.dart';
 import 'package:qur_an/models/surah.dart';
 import 'package:qur_an/services/detail_surah_service.dart';
 import 'package:qur_an/widgets/app_bar_title_text.dart';
+import 'package:qur_an/widgets/container_gradient.dart';
 import 'package:qur_an/widgets/item_ayat.dart';
 import 'package:qur_an/widgets/scaffold_gradient.dart';
 
@@ -24,7 +24,7 @@ class _DetailSurahState extends State<DetailSurah> {
   final player = AudioPlayer();
   dynamic isPlaying = null;
 
-  final nomor = Get.arguments['nomor'];
+  final nomor = 1;
 
   void fetchSurah() async {
     setState(() {

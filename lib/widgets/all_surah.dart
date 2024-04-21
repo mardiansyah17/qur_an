@@ -33,9 +33,11 @@ class _AllSurahState extends State<AllSurah> {
             onTap: () => {
               localStorage.setItem('namaSurah', surah.namaLatin),
               // localStorage.setItem('nomorSurah', result.data.nomor.toString());
-              Get.to(() => const DetailSurah(),
-                  arguments: {"nomor": surah.nomor},
-                  transition: Transition.rightToLeftWithFade)
+              Get.toNamed(
+                '/detail-surah',
+                arguments: {"nomor": surah.nomor},
+              )
+              // Get.to(() => const DetailSurah(),
             },
             child: Container(
               padding: const EdgeInsets.all(10),
