@@ -5,11 +5,22 @@ import 'package:qur_an/screens/jadwal_sholat.dart';
 import 'package:qur_an/widgets/tab_wraper.dart';
 
 appRoutes() => [
-      GetPage(name: '/', page: () => TabWraper()),
-      GetPage(name: '/home', page: () => Home()),
+      // Tab
+      GetPage(
+          name: '/',
+          page: () => TabWraper(),
+          parameters: {'selectedIndex': "0"}),
+      GetPage(
+          name: '/jadwal-sholat',
+          page: () => TabWraper(),
+          parameters: {'selectedIndex': "1"}),
+      GetPage(
+          name: '/jadwal-sholat',
+          page: () => TabWraper(),
+          parameters: {'selectedIndex': "2"}),
+
       GetPage(
           name: '/detail-surah',
           page: () => DetailSurah(),
           transition: Transition.rightToLeft),
-      GetPage(name: '/jadwal-sholat', page: () => JadwalSholat()),
     ];

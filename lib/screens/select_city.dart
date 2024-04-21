@@ -80,7 +80,7 @@ class ItemCity extends StatelessWidget {
   Widget build(BuildContext context) {
     return GestureDetector(
       onTap: () => {
-        Get.toNamed('/jadwal_sholat'),
+        Get.toNamed('/jadwal-sholat'),
         localStorage.setItem('city_id', item.id),
         localStorage.setItem('city_name', item.lokasi)
       },

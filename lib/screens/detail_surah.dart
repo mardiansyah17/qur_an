@@ -24,7 +24,7 @@ class _DetailSurahState extends State<DetailSurah> {
   final player = AudioPlayer();
   dynamic isPlaying = null;
 
-  final nomor = 1;
+  final nomor = Get.arguments['nomor'];
 
   void fetchSurah() async {
     setState(() {
@@ -59,9 +59,11 @@ class _DetailSurahState extends State<DetailSurah> {
   }
 
   Future onPlay(String url, int nomorAyat) async {
-    print(url);
     if (isPlaying != null) {
       await player.stop();
+      setState(() {
+        isPlaying = null;
+      });
     } else {
       setState(() {
         isPlaying = nomorAyat;

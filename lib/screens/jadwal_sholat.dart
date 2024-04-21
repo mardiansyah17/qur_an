@@ -1,6 +1,7 @@
 import 'dart:convert';
 
 import 'package:flutter/material.dart';
+import 'package:intl/intl.dart';
 import 'package:loading_animation_widget/loading_animation_widget.dart';
 import 'package:localstorage/localstorage.dart';
 import 'package:qur_an/models/jadwal.dart';
@@ -24,20 +25,23 @@ class _JadwalSholatState extends State<JadwalSholat> {
   void initState() {
     // TODO: implement initState
     super.initState();
-    if (city_id == null) {
-      Future.delayed(Duration.zero, () {
-        return showAlert(context, "Perhatian", "Anda belum memilih kota");
-      });
-    }
+
     fetchJadwal();
   }
 
   fetchJadwal() async {
+    setState(() {
+      isLoading = true;
+    });
     if (city_id == null) {
-      showAlert(context, "Perhatian", "Anda belum memilih kota");
+      Future.delayed(Duration.zero, () {
+        // return print('mantao');
+        return showAlert(context, "Perhatian", "Anda belum memilih kota");
+      });
+      return;
     }
-    Jadwal resJadwal =
-        await JadwalService.getJadwalSholat(city_id!, '2024-06-23');
+    Jadwal resJadwal = await JadwalService.getJadwalSholat(city_id!);
+
     if (!resJadwal.status) {
       showAlert(
           context, "Perhatian", resJadwal.message ?? "Gagal mengambil data");
@@ -52,7 +56,9 @@ class _JadwalSholatState extends State<JadwalSholat> {
   Widget build(BuildContext context) {
     return Column(
       children: [
-        HeaderJadwalSholat(),
+        HeaderJadwalSholat(
+          fetchJadwal: fetchJadwal,
+        ),
         city_id == null
             ? Container()
             : Container(

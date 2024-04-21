@@ -26,7 +26,7 @@ class ListJadwalSholat extends StatelessWidget {
         ),
         ItemJadwalSholat(
           title: "Dzuhur",
-          isActivated: true,
+          // isActivated: true,
           time: jadwal?.data.jadwal.dzuhur ?? "",
         ),
         ItemJadwalSholat(

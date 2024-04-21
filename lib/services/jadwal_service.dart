@@ -1,5 +1,7 @@
 import 'dart:convert';
 
+import 'package:intl/intl.dart';
+import 'package:localstorage/localstorage.dart';
 import 'package:qur_an/models/jadwal.dart';
 import 'package:http/http.dart' as http;
 import 'package:qur_an/utils/contants.dart';
@@ -7,7 +9,11 @@ import 'package:qur_an/utils/contants.dart';
 class JadwalService {
   static String _baseUrl = '${Constants.base_url_jadwal_sholat}sholat/jadwal/';
 
-  static Future<Jadwal> getJadwalSholat(String kota, String date) async {
+  static Future<Jadwal> getJadwalSholat(String kota) async {
+    String date = DateFormat('y-MM-d', 'id-ID').format(DateTime.parse(
+        localStorage.getItem('selectedDateSchedule') == null
+            ? DateTime.now().toIso8601String()
+            : localStorage.getItem('selectedDateSchedule')!));
     final response = await http.get(Uri.parse('$_baseUrl$kota/$date'));
 
     if (response.statusCode == 200) {

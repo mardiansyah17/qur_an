@@ -1,9 +1,10 @@
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 import 'package:qur_an/screens/home.dart';
 import 'package:qur_an/screens/jadwal_sholat.dart';
+import 'package:qur_an/screens/kiblah.dart';
 import 'package:qur_an/widgets/bottom_navigation.dart';
 import 'package:qur_an/widgets/container_gradient.dart';
-import 'package:qur_an/widgets/scaffold_gradient.dart';
 
 class TabWraper extends StatefulWidget {
   const TabWraper({
@@ -22,12 +23,9 @@ class TabWraper extends StatefulWidget {
 }
 
 class _TabWraperState extends State<TabWraper> {
-  int _selectedIndex = 1;
+  int _selectedIndex = int.parse(Get.parameters["selectedIndex"] ?? "") ?? 0;
 
-  final _pages = [
-    Home(),
-    JadwalSholat(),
-  ];
+  final _pages = [const Home(), const JadwalSholat(), const Kiblah()];
 
   void onItemTapped(int index) {
     setState(() {
