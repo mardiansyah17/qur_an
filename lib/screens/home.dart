@@ -3,6 +3,7 @@ import 'package:flutter_svg/svg.dart';
 import 'package:loading_animation_widget/loading_animation_widget.dart';
 import 'package:localstorage/localstorage.dart';
 import 'package:qur_an/services/surah_services.dart';
+import 'package:qur_an/utils/notification_helper.dart';
 import 'package:qur_an/widgets/all_surah.dart';
 import 'package:qur_an/widgets/search_box.dart';
 
@@ -58,6 +59,14 @@ class _HomeState extends State<Home> with WidgetsBindingObserver {
   Widget build(BuildContext context) {
     return Column(
       children: [
+        // GestureDetector(
+        //   // child: Text("Coba"),
+        //   onTap: () async => {
+        //     print('notif send'),
+        //     await NotificationHelper.show(title: "Woi lu kenapa", body: "body"),
+        //     print('notif berhasil'),
+        //   },
+        // ),
         SearchBox(
           changeHandler: changeHandler,
           hintText: "Cari surah",

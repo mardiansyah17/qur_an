@@ -41,10 +41,10 @@ class _HeaderJadwalSholatState extends State<HeaderJadwalSholat> {
           child: Row(
             mainAxisAlignment: MainAxisAlignment.spaceAround,
             children: [
-              Icon(
-                Icons.arrow_back_ios,
-                color: Colors.white,
-              ),
+              // Icon(
+              //   Icons.arrow_back_ios,
+              //   color: Colors.white,
+              // ),
               GestureDetector(
                 onTap: () => {
                   showDialog(
@@ -72,9 +72,9 @@ class _HeaderJadwalSholatState extends State<HeaderJadwalSholat> {
                                           selectedDateSchedule =
                                               selectedDay.toString();
                                         }),
-                                        localStorage.setItem(
-                                            'selectedDateSchedule',
-                                            selectedDay.toString()),
+                                        // localStorage.setItem(
+                                        //     'selectedDateSchedule',
+                                        //     selectedDay.toString()),
                                         Navigator.pop(context),
                                         widget.fetchJadwal()
                                       },
@@ -134,10 +134,13 @@ class _HeaderJadwalSholatState extends State<HeaderJadwalSholat> {
                                       selectedDayPredicate: (day) => isSameDay(
                                           day,
                                           DateTime.parse(
-                                              selectedDateSchedule!)),
+                                              selectedDateSchedule == null
+                                                  ? DateTime.now().toString()
+                                                  : selectedDateSchedule!)),
                                       focusedDay: DateTime.parse(
-                                              selectedDateSchedule!) ??
-                                          DateTime.now(),
+                                          selectedDateSchedule == null
+                                              ? DateTime.now().toString()
+                                              : selectedDateSchedule!),
                                       calendarFormat: CalendarFormat.month,
                                       startingDayOfWeek:
                                           StartingDayOfWeek.monday,
@@ -162,10 +165,10 @@ class _HeaderJadwalSholatState extends State<HeaderJadwalSholat> {
                       color: AppColors.primaryColor),
                 ),
               ),
-              Icon(
-                Icons.arrow_forward_ios,
-                color: Colors.white,
-              ),
+              // Icon(
+              //   Icons.arrow_forward_ios,
+              //   color: Colors.white,
+              // ),
             ],
           ),
         )
