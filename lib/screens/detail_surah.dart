@@ -4,6 +4,7 @@ import 'package:flutter/widgets.dart';
 import 'package:get/get.dart';
 import 'package:just_audio/just_audio.dart';
 import 'package:loading_animation_widget/loading_animation_widget.dart';
+import 'package:localstorage/localstorage.dart';
 import 'package:qur_an/models/surah.dart';
 import 'package:qur_an/services/detail_surah_service.dart';
 import 'package:qur_an/widgets/app_bar_title_text.dart';
@@ -22,7 +23,7 @@ class _DetailSurahState extends State<DetailSurah> {
   Surah? surah;
   bool isLoading = false;
   final player = AudioPlayer();
-  dynamic isPlaying = null;
+  dynamic isPlaying;
 
   final nomor = Get.arguments['nomor'];
 
@@ -36,6 +37,8 @@ class _DetailSurahState extends State<DetailSurah> {
       surah = result;
       isLoading = false;
     });
+    localStorage.setItem('nomorSurah', result.data.nomor.toString());
+    localStorage.setItem('namaSurah', result.data.namaLatin);
   }
 
   @override
@@ -81,7 +84,9 @@ class _DetailSurahState extends State<DetailSurah> {
 
   @override
   Widget build(BuildContext context) => PopScope(
-          child: ScaffoldGradient(
+      canPop: false,
+      onPopInvoked: (didPop) => {Get.toNamed('/')},
+      child: ScaffoldGradient(
         title: AppBarTitleText(title: surah?.data.namaLatin ?? ""),
         body: isLoading
             ? Center(
@@ -93,11 +98,13 @@ class _DetailSurahState extends State<DetailSurah> {
                     children: surah?.data.ayat
                             .map((e) => ItemAyat(
                                 key: Key(e.nomorAyat.toString()),
-                                nomor: e.nomorAyat,
+                                ayat: e.nomorAyat,
                                 ar: e.teksArab,
                                 tr: e.teksLatin,
                                 idn: e.teksIndonesia,
                                 audio: e.audio,
+                                nomorSurah: surah?.data.nomor ?? 0,
+                                namaSurah: surah?.data.namaLatin ?? "",
                                 onPlay: () => {
                                       onPlay(
                                           e.audio["01"] as String, e.nomorAyat)

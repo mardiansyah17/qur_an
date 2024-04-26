@@ -1,9 +1,14 @@
+import 'dart:convert';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
+import 'package:get/get.dart';
+import 'package:intl/intl.dart';
 import 'package:loading_animation_widget/loading_animation_widget.dart';
 import 'package:localstorage/localstorage.dart';
 import 'package:qur_an/services/surah_services.dart';
 import 'package:qur_an/utils/notification_helper.dart';
+import 'package:qur_an/utils/schedule_prayer.dart';
 import 'package:qur_an/widgets/all_surah.dart';
 import 'package:qur_an/widgets/search_box.dart';
 
@@ -55,23 +60,38 @@ class _HomeState extends State<Home> with WidgetsBindingObserver {
         });
   }
 
+  void tesHandler() async {
+    {
+      String? jadwalSholat = localStorage.getItem('jadwal_sholat')!;
+
+      Map<String, dynamic> jadwal = jsonDecode(jadwalSholat);
+      DateFormat format = DateFormat("EEEE, dd/MM/yyyy HH:mm", 'id-ID');
+      DateTime subuh = format.parse("${jadwal["tanggal"]} ${jadwal['subuh']}");
+      await NotificationHelper.scheduleNotification(
+          subuh, "Waktunya sholat", "sholat subuh");
+
+      return;
+
+      // SchedulePrayer().getSchedule(),
+      // print("mant")
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     return Column(
       children: [
-        // GestureDetector(
-        //   // child: Text("Coba"),
-        //   onTap: () async => {
-        //     print('notif send'),
-        //     await NotificationHelper.show(title: "Woi lu kenapa", body: "body"),
-        //     print('notif berhasil'),
-        //   },
-        // ),
+        GestureDetector(
+          child: Text(localStorage.getItem('jadwal_sholat') == null
+              ? "jadwal sholat belum ada"
+              : localStorage.getItem('jadwal_sholat')!),
+          onTap: tesHandler,
+        ),
         SearchBox(
           changeHandler: changeHandler,
           hintText: "Cari surah",
         ),
-        // LastRead(),
+        localStorage.getItem('nomorSurah') == null ? Container() : LastRead(),
         Expanded(
           child: isLoading
               ? Center(
@@ -109,53 +129,61 @@ class _LastReadState extends State<LastRead> {
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      margin: const EdgeInsets.only(top: 30),
-      height: 130,
-      width: double.infinity,
-      decoration: BoxDecoration(
-        boxShadow: [
-          BoxShadow(
-            color: const Color(0xff65D6FC).withOpacity(0.5),
-            spreadRadius: 0,
-            blurRadius: 23,
-            offset: const Offset(0, 0), // changes position of shadow
-          ),
-        ],
-        borderRadius: BorderRadius.circular(20),
-        gradient: const LinearGradient(colors: [
-          Color(0xff65CEFC),
-          Color(0xff455EB5),
-        ], begin: Alignment.topLeft, end: Alignment.bottomRight),
-      ),
-      child: Stack(
-        children: [
-          Padding(
-            padding: EdgeInsets.all(8.0),
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Text("Terakhir dibaca",
-                    style: TextStyle(fontSize: 18, color: Colors.white)),
-                Text(
-                  "Surah : $lastReadSurah",
-                )
-              ],
+    return GestureDetector(
+      onTap: () => {
+        Get.toNamed(
+          '/detail-surah',
+          arguments: {"nomor": int.parse(localStorage.getItem('nomorSurah')!)},
+        )
+      },
+      child: Container(
+        margin: const EdgeInsets.only(top: 30),
+        height: 130,
+        width: double.infinity,
+        decoration: BoxDecoration(
+          boxShadow: [
+            BoxShadow(
+              color: const Color(0xff65D6FC).withOpacity(0.5),
+              spreadRadius: 0,
+              blurRadius: 23,
+              offset: const Offset(0, 0), // changes position of shadow
             ),
-          ),
-          Positioned(
-            bottom: 0,
-            right: 0,
-            child: SvgPicture.asset(
-              'assets/svg/quran.svg',
-              height: 100,
-              colorFilter: const ColorFilter.mode(
-                Color.fromARGB(255, 44, 184, 254),
-                BlendMode.srcIn,
+          ],
+          borderRadius: BorderRadius.circular(20),
+          gradient: const LinearGradient(colors: [
+            Color(0xff65CEFC),
+            Color(0xff455EB5),
+          ], begin: Alignment.topLeft, end: Alignment.bottomRight),
+        ),
+        child: Stack(
+          children: [
+            Padding(
+              padding: EdgeInsets.all(8.0),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Text("Terakhir dibaca",
+                      style: TextStyle(fontSize: 18, color: Colors.white)),
+                  Text(
+                    "Surah : $lastReadSurah",
+                  )
+                ],
               ),
             ),
-          ),
-        ],
+            Positioned(
+              bottom: 0,
+              right: 0,
+              child: SvgPicture.asset(
+                'assets/svg/quran.svg',
+                height: 100,
+                colorFilter: const ColorFilter.mode(
+                  Color.fromARGB(255, 44, 184, 254),
+                  BlendMode.srcIn,
+                ),
+              ),
+            ),
+          ],
+        ),
       ),
     );
   }

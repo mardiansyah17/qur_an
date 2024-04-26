@@ -10,10 +10,8 @@ class JadwalService {
   static String _baseUrl = '${Constants.base_url_jadwal_sholat}sholat/jadwal/';
 
   static Future<Jadwal> getJadwalSholat(String kota) async {
-    String date = DateFormat('y-MM-d', 'id-ID').format(DateTime.parse(
-        localStorage.getItem('selectedDateSchedule') == null
-            ? DateTime.now().toIso8601String()
-            : localStorage.getItem('selectedDateSchedule')!));
+    String date = DateFormat('y-MM-d', 'id-ID')
+        .format(DateTime.parse(DateTime.now().toIso8601String()));
     final response = await http.get(Uri.parse('$_baseUrl$kota/$date'));
 
     if (response.statusCode == 200) {

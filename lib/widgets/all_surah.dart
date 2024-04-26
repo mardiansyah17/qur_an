@@ -31,7 +31,6 @@ class _AllSurahState extends State<AllSurah> {
 
           return GestureDetector(
             onTap: () => {
-              localStorage.setItem('namaSurah', surah.namaLatin),
               // localStorage.setItem('nomorSurah', result.data.nomor.toString());
               Get.toNamed(
                 '/detail-surah',

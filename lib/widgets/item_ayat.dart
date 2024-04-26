@@ -1,5 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:fluttertoast/fluttertoast.dart';
+import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:localstorage/localstorage.dart';
+import 'package:qur_an/utils/app_colors.dart';
 import 'package:qur_an/widgets/number.dart';
 
 class ItemAyat extends StatefulWidget {
@@ -8,38 +12,42 @@ class ItemAyat extends StatefulWidget {
       required this.ar,
       required this.tr,
       required this.idn,
-      required this.nomor,
+      required this.ayat,
       required this.audio,
       required this.onPlay,
-      required this.isPlaying});
+      required this.isPlaying,
+      required this.nomorSurah,
+      required this.namaSurah});
 
-  final int nomor;
+  final int ayat;
   final String ar;
   final String tr;
   final String idn;
   final dynamic audio;
   final Function onPlay;
   final bool isPlaying;
+  final int nomorSurah;
+  final String namaSurah;
 
   @override
   _ItemAyatState createState() => _ItemAyatState();
 }
 
 class _ItemAyatState extends State<ItemAyat> {
-  @override
-  void initState() {
-    // TODO: implement initState
+  void setLastRead(ayat) {
+    localStorage.setItem('noSurah', widget.nomorSurah.toString());
+    localStorage.setItem('ayat', ayat);
+    localStorage.setItem('namaSurah', widget.namaSurah);
 
-    super.initState();
+    Fluttertoast.showToast(
+        msg: "Berhasil di simpan sebagai surah terakhir dibaca",
+        toastLength: Toast.LENGTH_SHORT,
+        gravity: ToastGravity.TOP,
+        timeInSecForIosWeb: 1,
+        backgroundColor: AppColors.secondaryColor,
+        textColor: Colors.white,
+        fontSize: 16.0);
   }
-
-  @override
-  // void dispose() {
-  //   // Release decoders and buffers back to the operating system making them
-  //   // available for other apps to use.
-  //   player.dispose();
-  //   super.dispose();
-  // }
 
   @override
   Widget build(BuildContext context) {
@@ -96,41 +104,44 @@ class _ItemAyatState extends State<ItemAyat> {
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
-                    Number(nomor: widget.nomor),
+                    Number(nomor: widget.ayat),
                     SizedBox(
-                      width: MediaQuery.of(context).size.width * 0.3,
+                      width: MediaQuery.of(context).size.width * 0.2,
                       // color: Colors.red,
                       child: Row(
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         crossAxisAlignment: CrossAxisAlignment.end,
                         children: [
-                          const Icon(
-                            Icons.share,
-                            color: Color(0xFF65D6FC),
-                          ),
-                          const Icon(
-                            Icons.bookmark,
-                            color: Color(0xFF65D6FC),
-                          ),
-                          GestureDetector(
-                            onTap: () => {widget.onPlay()},
+                          // ElevatedButton(
+                          //     onPressed: () => {
+                          //           setLastRead(widget.ayat.toString()),
+                          //         },
+                          //     style: ElevatedButton.styleFrom(
+                          //         shape: CircleBorder(),
+                          //         backgroundColor: Colors.transparent,
+                          //         shadowColor: Colors.transparent),
+                          //     child: const Icon(
+                          //       Icons.bookmark_border_outlined,
+                          //       size: 30,
+                          //       color: Color(0xFF65D6FC),
+                          //     )),
+                          ElevatedButton(
+                            onPressed: () => widget.onPlay(),
+                            style: ElevatedButton.styleFrom(
+                                shape: CircleBorder(),
+                                backgroundColor: Colors.transparent,
+                                shadowColor: Colors.transparent),
                             child: widget.isPlaying
                                 ? const Icon(
                                     Icons.stop,
-                                    size: 25,
+                                    size: 30,
                                     color: Color(0XFF65d6fc),
                                   )
                                 : const Icon(
                                     Icons.play_arrow_sharp,
-                                    size: 25,
+                                    size: 30,
                                     color: Color(0XFF65d6fc),
                                   ),
-
-                            // Icon(
-                            //   isPlaying ? Icons.stop : Icons.play_arrow,
-                            //   // size: 25,
-                            //   color: Color(0xFF65D6FC),
-                            // ),
                           ),
                         ],
                       ),

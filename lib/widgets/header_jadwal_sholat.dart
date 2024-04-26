@@ -4,7 +4,6 @@ import 'package:intl/intl.dart';
 import 'package:localstorage/localstorage.dart';
 import 'package:qur_an/screens/select_city.dart';
 import 'package:qur_an/utils/app_colors.dart';
-import 'package:qur_an/widgets/date_picker.dart';
 import 'package:table_calendar/table_calendar.dart';
 
 class HeaderJadwalSholat extends StatefulWidget {
