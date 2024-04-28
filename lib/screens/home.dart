@@ -62,14 +62,8 @@ class _HomeState extends State<Home> with WidgetsBindingObserver {
 
   void tesHandler() async {
     {
-      String? jadwalSholat = localStorage.getItem('jadwal_sholat')!;
-
-      Map<String, dynamic> jadwal = jsonDecode(jadwalSholat);
-      DateFormat format = DateFormat("EEEE, dd/MM/yyyy HH:mm", 'id-ID');
-      DateTime subuh = format.parse("${jadwal["tanggal"]} ${jadwal['subuh']}");
-      await NotificationHelper.scheduleNotification(
-          subuh, "Waktunya sholat", "sholat subuh");
-
+      await SchedulePrayer().getSchedule();
+      // print("cakep");
       return;
 
       // SchedulePrayer().getSchedule(),
@@ -81,12 +75,12 @@ class _HomeState extends State<Home> with WidgetsBindingObserver {
   Widget build(BuildContext context) {
     return Column(
       children: [
-        GestureDetector(
-          child: Text(localStorage.getItem('jadwal_sholat') == null
-              ? "jadwal sholat belum ada"
-              : localStorage.getItem('jadwal_sholat')!),
-          onTap: tesHandler,
-        ),
+        // ElevatedButton(
+        //   child: Text(localStorage.getItem('jadwal_sholat') == null
+        //       ? "jadwal sholat belum ada"
+        //       : localStorage.getItem('jadwal_sholat')!),
+        //   onPressed: tesHandler,
+        // ),
         SearchBox(
           changeHandler: changeHandler,
           hintText: "Cari surah",

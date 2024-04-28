@@ -8,6 +8,5 @@ void main() async {
 
     // Act
     final resSetSchdule = await schedulePrayer.getSchedule();
-    print(resSetSchdule);
   });
 }

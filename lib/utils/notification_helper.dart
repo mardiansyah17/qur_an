@@ -1,4 +1,5 @@
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
+import 'package:timezone/data/latest_all.dart' as tz;
 import 'package:timezone/timezone.dart' as tz;
 
 class NotificationHelper {
@@ -28,21 +29,20 @@ class NotificationHelper {
   }
 
   static Future<void> scheduleNotification(
-      DateTime scheduledTime, String title, String body) async {
+      int id, DateTime scheduledTime, String title, String body) async {
     const platformChannelSpecifics = NotificationDetails(android: android);
-
-    try {
+    tz.initializeTimeZones();
+    if (DateTime.now().isBefore(scheduledTime)) {
       await _notification.zonedSchedule(
-        1, // ID notifikasi (dapat diganti dengan ID unik)
+        id, // ID notifikasi (dapat diganti dengan ID unik)
         title,
         body,
+        // tz.TZDateTime.from(scheduledTime, tz.local),
         tz.TZDateTime.from(scheduledTime, tz.local),
         platformChannelSpecifics,
         uiLocalNotificationDateInterpretation:
             UILocalNotificationDateInterpretation.absoluteTime,
       );
-    } catch (err) {
-      print(err);
     }
   }
 }

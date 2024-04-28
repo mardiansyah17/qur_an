@@ -7,6 +7,7 @@ import 'package:qur_an/models/city.dart';
 import 'package:qur_an/screens/jadwal_sholat.dart';
 import 'package:qur_an/services/city_service.dart';
 import 'package:qur_an/utils/app_colors.dart';
+import 'package:qur_an/utils/schedule_prayer.dart';
 import 'package:qur_an/widgets/scaffold_gradient.dart';
 import 'package:qur_an/widgets/search_box.dart';
 
@@ -79,7 +80,9 @@ class ItemCity extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
-      onTap: () => {
+      onTap: () async => {
+        await SchedulePrayer().saveToLocalStorage(item.id),
+        await SchedulePrayer().schedulePrayerTimes(),
         Get.toNamed('/jadwal-sholat'),
         localStorage.setItem('city_id', item.id),
         localStorage.setItem('city_name', item.lokasi)

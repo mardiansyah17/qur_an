@@ -25,7 +25,7 @@ class TabWraper extends StatefulWidget {
 class _TabWraperState extends State<TabWraper> {
   int _selectedIndex = int.parse(Get.parameters["selectedIndex"] ?? "") ?? 0;
 
-  final _pages = [const Home(), const JadwalSholat(), const Kiblah()];
+  final _pages = [const Home(), const JadwalSholat()];
 
   void onItemTapped(int index) {
     setState(() {

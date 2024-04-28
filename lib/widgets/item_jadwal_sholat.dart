@@ -37,14 +37,14 @@ class _ItemJadwalSholatState extends State<ItemJadwalSholat> {
         children: [
           Row(
             children: [
-              Container(
-                margin: EdgeInsets.only(right: 10),
-                child: Icon(
-                  Icons.notifications_active,
-                  color: color,
-                  size: 17,
-                ),
-              ),
+              // Container(
+              //   margin: EdgeInsets.only(right: 10),
+              //   child: Icon(
+              //     Icons.notifications_active,
+              //     color: color,
+              //     size: 17,
+              //   ),
+              // ),
               Text(widget.title,
                   style: TextStyle(
                     fontSize: 16,

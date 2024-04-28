@@ -30,10 +30,10 @@ class BottomNavigation extends StatelessWidget {
           icon: Icon(FlutterIslamicIcons.prayingPerson),
           label: 'Sholat',
         ),
-        BottomNavigationBarItem(
-          icon: Icon(FlutterIslamicIcons.kaaba),
-          label: 'Kiblat',
-        ),
+        // BottomNavigationBarItem(
+        //   icon: Icon(FlutterIslamicIcons.kaaba),
+        //   label: 'Kiblat',
+        // ),
         BottomNavigationBarItem(
           icon: Icon(Icons.settings),
           label: 'Setting',

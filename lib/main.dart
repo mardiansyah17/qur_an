@@ -10,8 +10,6 @@ import 'package:qur_an/utils/notification_helper.dart';
 // import 'package:qur_an/utils/callback_workmanager.dart';
 import 'package:qur_an/utils/schedule_prayer.dart';
 import 'package:workmanager/workmanager.dart';
-import 'package:timezone/data/latest.dart' as tzdata;
-import 'package:timezone/timezone.dart' as tz;
 
 void callbackWorkmanager() async {
   Workmanager().executeTask((task, inputData) async {
@@ -19,15 +17,13 @@ void callbackWorkmanager() async {
     await initLocalStorage();
     print('task $task');
     switch (task) {
-      case "getSchedule25":
+      case "getSchedule":
         await SchedulePrayer().getSchedule();
         break;
-      case "sendNotif":
-        if (SchedulePrayer().isSubuhTime()) {
-          NotificationHelper.show(
-              title: "Waktu sholat", body: "Saatnya waktu subuh");
-        }
+      case "stSchedule":
+        await SchedulePrayer().schedulePrayerTimes();
         break;
+
       default:
         break;
     }
@@ -37,9 +33,7 @@ void callbackWorkmanager() async {
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
-  tzdata.initializeTimeZones();
-  tz.setLocalLocation(
-      tz.getLocation('Asia/Jakarta')); // Ganti dengan zona waktu yang sesuai
+// Ganti dengan zona waktu yang sesuai
 
   await initLocalStorage();
 
@@ -70,9 +64,15 @@ class _MyAppState extends State<MyApp> {
     // TODO: implement initState
     super.initState();
     Workmanager().registerPeriodicTask(
-      'getSchedule25',
-      'getSchedule25',
+      'getSchedule',
+      'getSchedule',
       frequency: const Duration(minutes: 15),
+    );
+
+    Workmanager().registerPeriodicTask(
+      'setSchedule',
+      'setSchedule',
+      frequency: const Duration(hours: 1),
     );
   }
 
