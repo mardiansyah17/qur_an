@@ -34,10 +34,10 @@ class BottomNavigation extends StatelessWidget {
         //   icon: Icon(FlutterIslamicIcons.kaaba),
         //   label: 'Kiblat',
         // ),
-        BottomNavigationBarItem(
-          icon: Icon(Icons.settings),
-          label: 'Setting',
-        ),
+        // BottomNavigationBarItem(
+        //   icon: Icon(Icons.settings),
+        //   label: 'About',
+        // ),
       ],
     );
   }

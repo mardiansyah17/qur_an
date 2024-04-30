@@ -1,9 +1,6 @@
-import 'dart:convert';
-
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:get/get.dart';
-import 'package:intl/intl.dart';
 import 'package:loading_animation_widget/loading_animation_widget.dart';
 import 'package:localstorage/localstorage.dart';
 import 'package:qur_an/services/surah_services.dart';
@@ -76,11 +73,9 @@ class _HomeState extends State<Home> with WidgetsBindingObserver {
     return Column(
       children: [
         // ElevatedButton(
-        //   child: Text(localStorage.getItem('jadwal_sholat') == null
-        //       ? "jadwal sholat belum ada"
-        //       : localStorage.getItem('jadwal_sholat')!),
-        //   onPressed: tesHandler,
-        // ),
+        //     onPressed: () async =>
+        //         await NotificationHelper.createNewNotification(),
+        //     child: Text("mantap")),
         SearchBox(
           changeHandler: changeHandler,
           hintText: "Cari surah",

@@ -2,9 +2,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:get/get.dart';
-import 'package:localstorage/localstorage.dart';
 import 'package:qur_an/models/list_surah.dart';
-import 'package:qur_an/screens/detail_surah.dart';
 import 'package:qur_an/utils/app_colors.dart';
 import 'package:qur_an/widgets/number.dart';
 

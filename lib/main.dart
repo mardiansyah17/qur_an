@@ -1,11 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:flutter_native_splash/flutter_native_splash.dart';
 import 'package:get/route_manager.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:intl/date_symbol_data_local.dart';
 import 'package:localstorage/localstorage.dart';
 import 'package:permission_handler/permission_handler.dart';
 import 'package:qur_an/routes.dart';
+import 'package:qur_an/utils/contants.dart';
 import 'package:qur_an/utils/notification_helper.dart';
 // import 'package:qur_an/utils/callback_workmanager.dart';
 import 'package:qur_an/utils/schedule_prayer.dart';
@@ -20,7 +22,7 @@ void callbackWorkmanager() async {
       case "getSchedule":
         await SchedulePrayer().getSchedule();
         break;
-      case "stSchedule":
+      case "setSchedule":
         await SchedulePrayer().schedulePrayerTimes();
         break;
 
@@ -32,14 +34,13 @@ void callbackWorkmanager() async {
 }
 
 Future<void> main() async {
-  WidgetsFlutterBinding.ensureInitialized();
+  WidgetsBinding widgetsBinding = WidgetsFlutterBinding.ensureInitialized();
 // Ganti dengan zona waktu yang sesuai
-
+  FlutterNativeSplash.preserve(widgetsBinding: widgetsBinding);
   await initLocalStorage();
 
-  NotificationHelper.init();
-
-  Workmanager().initialize(callbackWorkmanager, isInDebugMode: true);
+  Workmanager()
+      .initialize(callbackWorkmanager, isInDebugMode: Constants.isDebug);
 
   await Permission.notification.isDenied.then((value) {
     if (value) {
@@ -47,6 +48,9 @@ Future<void> main() async {
     }
   });
   await SystemChrome.setPreferredOrientations([DeviceOrientation.portraitUp]);
+  await NotificationHelper.initializeLocalNotifications();
+  await NotificationHelper.startListeningNotificationEvents();
+  FlutterNativeSplash.remove();
 
   initializeDateFormatting().then((_) => runApp(const MyApp()));
 }
@@ -74,6 +78,8 @@ class _MyAppState extends State<MyApp> {
       'setSchedule',
       frequency: const Duration(hours: 1),
     );
+
+    SchedulePrayer().schedulePrayerTimes();
   }
 
   // This widget is the root of your application.

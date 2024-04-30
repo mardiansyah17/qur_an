@@ -22,7 +22,6 @@ class _DatePickerState extends State<DatePicker> {
 
   @override
   Widget build(BuildContext context) {
-    print(widget.selectedDate);
     return Column(
       children: [
         Text(DateFormat('y MMMM d', 'id-ID').format(widget.selectedDate!)),

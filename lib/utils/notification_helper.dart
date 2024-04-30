@@ -1,48 +1,96 @@
-import 'package:flutter_local_notifications/flutter_local_notifications.dart';
-import 'package:timezone/data/latest_all.dart' as tz;
-import 'package:timezone/timezone.dart' as tz;
+import 'dart:isolate';
+import 'dart:ui';
+
+import 'package:awesome_notifications/awesome_notifications.dart';
+import 'package:flutter/material.dart';
+import 'package:qur_an/utils/contants.dart';
 
 class NotificationHelper {
-  static final _notification = FlutterLocalNotificationsPlugin();
-  static const android = AndroidNotificationDetails(
-    'channel id',
-    'channel name',
-    importance: Importance.max,
-  );
+  static ReceivedAction? initialAction;
 
-  static init() {
-    _notification.initialize(const InitializationSettings(
-        android: AndroidInitializationSettings('@mipmap/ic_launcher'),
-        iOS: DarwinInitializationSettings()));
+  ///  *********************************************
+  ///     INITIALIZATIONS
+  ///  *********************************************
+  ///
+  static Future<void> initializeLocalNotifications() async {
+    await AwesomeNotifications().initialize(
+        'resource://drawable/logo_sahabat_muslim',
+        // null,
+        [
+          NotificationChannel(
+              channelKey: 'sholat',
+              channelName: 'Waktu sholat',
+              channelDescription: 'Waktu sholat',
+              playSound: true,
+              onlyAlertOnce: true,
+              groupAlertBehavior: GroupAlertBehavior.Children,
+              importance: NotificationImportance.High,
+              defaultPrivacy: NotificationPrivacy.Private,
+              defaultColor: Colors.red,
+              soundSource: 'resource://raw/adzan',
+              ledColor: Colors.deepPurple),
+          NotificationChannel(
+              channelGroupKey: 'sound_tests',
+              channelKey: "custom_sound",
+              channelName: "Custom sound notifications",
+              channelDescription: "Notifications with custom sound",
+              playSound: true,
+              soundSource: 'resource://raw/adzan',
+              defaultColor: Colors.red,
+              ledColor: Colors.red,
+              vibrationPattern: lowVibrationPattern)
+        ],
+        debug: Constants.isDebug);
   }
 
-  static Future<void> show({
-    required String title,
-    required String body,
-  }) async {
-    const platform = NotificationDetails(android: android);
-    try {
-      await _notification.show(0, title, body, platform);
-    } catch (e) {
-      print(e);
+  static Future<void> createNewNotification() async {
+    await AwesomeNotifications().createNotification(
+        content: NotificationContent(
+          id: -1,
+          channelKey: 'sholat',
+          title: 'Huston! The eagle has landed!',
+
+          body:
+              "A small step for a man, but a giant leap to Flutter's community!",
+
+          //'asset://assets/images/balloons-in-sky.jpg',
+          notificationLayout: NotificationLayout.BigPicture,
+        ),
+        actionButtons: [
+          NotificationActionButton(key: 'stop', label: 'Stop'),
+        ]);
+  }
+
+  @pragma('vm:entry-point')
+  static Future<void> onActionReceivedMethod(ReceivedAction event) async {
+    switch (event.buttonKeyPressed) {
+      case "stop":
+        print(event);
+        // AwesomeNotifications().cancel(id);
+        break;
+      default:
     }
   }
 
-  static Future<void> scheduleNotification(
-      int id, DateTime scheduledTime, String title, String body) async {
-    const platformChannelSpecifics = NotificationDetails(android: android);
-    tz.initializeTimeZones();
-    if (DateTime.now().isBefore(scheduledTime)) {
-      await _notification.zonedSchedule(
-        id, // ID notifikasi (dapat diganti dengan ID unik)
-        title,
-        body,
-        // tz.TZDateTime.from(scheduledTime, tz.local),
-        tz.TZDateTime.from(scheduledTime, tz.local),
-        platformChannelSpecifics,
-        uiLocalNotificationDateInterpretation:
-            UILocalNotificationDateInterpretation.absoluteTime,
-      );
-    }
+  static Future<void> startListeningNotificationEvents() async {
+    await AwesomeNotifications()
+        .setListeners(onActionReceivedMethod: onActionReceivedMethod);
+  }
+
+  static Future<bool> scheduleNotification(
+      DateTime scheduledTime, String title, String body) async {
+    return await AwesomeNotifications().createNotification(
+        content: NotificationContent(
+            id: -1, channelKey: "sholat", title: title, body: body),
+        schedule: NotificationCalendar(
+            day: scheduledTime.day,
+            month: scheduledTime.month,
+            year: scheduledTime.year,
+            minute: scheduledTime.minute,
+            hour: scheduledTime.hour));
+  }
+
+  static Future<void> cancelNotifications() async {
+    await AwesomeNotifications().cancelAll();
   }
 }

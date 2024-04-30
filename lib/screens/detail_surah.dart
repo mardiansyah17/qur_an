@@ -8,7 +8,6 @@ import 'package:localstorage/localstorage.dart';
 import 'package:qur_an/models/surah.dart';
 import 'package:qur_an/services/detail_surah_service.dart';
 import 'package:qur_an/widgets/app_bar_title_text.dart';
-import 'package:qur_an/widgets/container_gradient.dart';
 import 'package:qur_an/widgets/item_ayat.dart';
 import 'package:qur_an/widgets/scaffold_gradient.dart';
 

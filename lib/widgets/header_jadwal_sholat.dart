@@ -31,7 +31,10 @@ class _HeaderJadwalSholatState extends State<HeaderJadwalSholat> {
           },
           child: Container(
             // margin: EdgeInsets.only(bottom: 120),
-            child: Text(localStorage.getItem('city_name') ?? "Pilih Kota",
+            child: Text(
+                localStorage.getItem('city_name') == null
+                    ? "Pilih Kota"
+                    : localStorage.getItem('city_name')!.capitalize!,
                 style: TextStyle(
                   fontSize: 17,
                   fontWeight: FontWeight.w700,

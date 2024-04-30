@@ -10,7 +10,9 @@
     <application
         android:label="qur_an"
         android:name="${applicationName}"
-        android:icon="@mipmap/ic_launcher">
+        android:icon="@mipmap/launcher_icon"
+        android:resource="@mipmap/logo_sahabat_muslim"
+        >
         <activity
             android:name=".MainActivity"
             android:exported="true"

@@ -1,7 +1,6 @@
 import 'dart:convert';
 
 import 'package:intl/intl.dart';
-import 'package:localstorage/localstorage.dart';
 import 'package:qur_an/models/jadwal.dart';
 import 'package:http/http.dart' as http;
 import 'package:qur_an/utils/contants.dart';

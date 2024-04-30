@@ -44,8 +44,8 @@ class SchedulePrayer {
   }
 
   Future<void> schedulePrayerTimes() async {
-    String? jadwalSholat = localStorage.getItem('jadwal_sholat')!;
-
+    String? jadwalSholat = localStorage.getItem('jadwal_sholat');
+    if (jadwalSholat == null) return;
     Map<String, dynamic> jadwal = jsonDecode(jadwalSholat);
     DateFormat format = DateFormat("EEEE, dd/MM/yyyy HH:mm", 'id-ID');
     DateTime subuh = format.parse("${jadwal["tanggal"]} ${jadwal['subuh']}");
@@ -55,14 +55,14 @@ class SchedulePrayer {
         format.parse("${jadwal["tanggal"]} ${jadwal['maghrib']}");
     DateTime isya = format.parse("${jadwal["tanggal"]} ${jadwal['isya']}");
     await NotificationHelper.scheduleNotification(
-        1, subuh, "Waktunya sholat", "Sholat Subuh");
+        subuh, "Waktunya sholat", "Sholat Subuh");
     await NotificationHelper.scheduleNotification(
-        2, dzuhur, "Waktunya sholat", "Sholat Dzuhur");
+        dzuhur, "Waktunya sholat", "Sholat Dzuhur");
     await NotificationHelper.scheduleNotification(
-        3, ashar, "Waktunya sholat", "Sholat Ashar");
+        ashar, "Waktunya sholat", "Sholat Ashar");
     await NotificationHelper.scheduleNotification(
-        4, maghrib, "Waktunya sholat", "Sholat Maghrib");
+        maghrib, "Waktunya sholat", "Sholat Maghrib");
     await NotificationHelper.scheduleNotification(
-        5, isya, "Waktunya sholat", "Sholat Isya");
+        isya, "Waktunya sholat", "Sholat Isya");
   }
 }

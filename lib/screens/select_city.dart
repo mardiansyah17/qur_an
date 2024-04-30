@@ -4,7 +4,6 @@ import 'package:loading_animation_widget/loading_animation_widget.dart';
 import 'package:localstorage/localstorage.dart';
 import 'package:qur_an/models/ListCity.dart';
 import 'package:qur_an/models/city.dart';
-import 'package:qur_an/screens/jadwal_sholat.dart';
 import 'package:qur_an/services/city_service.dart';
 import 'package:qur_an/utils/app_colors.dart';
 import 'package:qur_an/utils/schedule_prayer.dart';
