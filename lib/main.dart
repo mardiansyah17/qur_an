@@ -66,6 +66,8 @@ class _MyAppState extends State<MyApp> {
   @override
   void initState() {
     // TODO: implement initState
+
+    print("depan");
     super.initState();
     Workmanager().registerPeriodicTask(
       'getSchedule',

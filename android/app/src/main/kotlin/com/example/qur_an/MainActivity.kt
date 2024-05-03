@@ -1,4 +1,4 @@
-package com.example.qur_an
+package com.ibadahku_mardiancode
 
 import io.flutter.embedding.android.FlutterActivity
 

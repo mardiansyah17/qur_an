@@ -78,14 +78,15 @@ class _DetailSurahState extends State<DetailSurah> {
   @override
   void dispose() {
     player.dispose();
+    print("dispose");
     super.dispose();
   }
 
   @override
   Widget build(BuildContext context) => PopScope(
-      canPop: false,
-      onPopInvoked: (didPop) => {Get.toNamed('/')},
-      child: ScaffoldGradient(
+          // canPop: false,
+          // onPopInvoked: (didPop) => {dispose()},
+          child: ScaffoldGradient(
         title: AppBarTitleText(title: surah?.data.namaLatin ?? ""),
         body: isLoading
             ? Center(

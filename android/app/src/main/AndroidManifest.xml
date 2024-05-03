@@ -8,7 +8,7 @@
     <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
     <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
     <application
-        android:label="qur_an"
+        android:label="Ibadahku"
         android:name="${applicationName}"
         android:icon="@mipmap/launcher_icon"
         android:resource="@mipmap/logo_sahabat_muslim"
