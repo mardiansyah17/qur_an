@@ -7,6 +7,7 @@ appRoutes() => [
       GetPage(
           name: '/',
           page: () => TabWraper(),
+          transition: Transition.leftToRight,
           parameters: {'selectedIndex': "0"}),
       GetPage(
           name: '/jadwal-sholat',

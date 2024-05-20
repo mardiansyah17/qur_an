@@ -7,6 +7,7 @@ import 'package:qur_an/models/city.dart';
 import 'package:qur_an/services/city_service.dart';
 import 'package:qur_an/utils/app_colors.dart';
 import 'package:qur_an/utils/schedule_prayer.dart';
+import 'package:qur_an/widgets/loading_scree.dart';
 import 'package:qur_an/widgets/scaffold_gradient.dart';
 import 'package:qur_an/widgets/search_box.dart';
 
@@ -54,10 +55,7 @@ class _SelectCityState extends State<SelectCity> {
       title: SearchBox(
           changeHandler: changeHandler, hintText: "Cari kota atau kabupaten"),
       body: isLoading
-          ? Center(
-              child: LoadingAnimationWidget.inkDrop(
-                  color: const Color(0xFF65D6FC), size: 40),
-            )
+          ? const LoadingScreen()
           : ListView.builder(
               itemCount: city.data.length,
               itemBuilder: (context, index) {

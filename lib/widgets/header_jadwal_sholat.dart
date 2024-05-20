@@ -50,7 +50,7 @@ class _HeaderJadwalSholatState extends State<HeaderJadwalSholat> {
                   // onTapDate(context)
                 },
                 child: Text(
-                  DateFormat('y MMMM d', 'id-ID').format(DateTime.parse(
+                  DateFormat('dd MMMM y', 'id-ID').format(DateTime.parse(
                       selectedDateSchedule == null
                           ? DateTime.now().toString()
                           : selectedDateSchedule!)),

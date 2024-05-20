@@ -1,12 +1,10 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_svg/svg.dart';
 import 'package:get/get.dart';
 import 'package:loading_animation_widget/loading_animation_widget.dart';
 import 'package:localstorage/localstorage.dart';
 import 'package:qur_an/services/surah_services.dart';
-import 'package:qur_an/utils/notification_helper.dart';
-import 'package:qur_an/utils/schedule_prayer.dart';
 import 'package:qur_an/widgets/all_surah.dart';
+import 'package:qur_an/widgets/loading_scree.dart';
 import 'package:qur_an/widgets/search_box.dart';
 
 class Home extends StatefulWidget {
@@ -19,6 +17,7 @@ class Home extends StatefulWidget {
 class _HomeState extends State<Home> with WidgetsBindingObserver {
   String lastReadSurah = '';
   final inputSearchSurah = TextEditingController();
+  Map<String, dynamic>? lastRead;
 
   List<dynamic> listSurah = [];
   bool isLoading = false;
@@ -39,6 +38,17 @@ class _HomeState extends State<Home> with WidgetsBindingObserver {
   void initState() {
     super.initState();
     fetchSurah();
+
+    setState(() {
+      var nomorSurah = localStorage.getItem('nomorSurah');
+      if (nomorSurah != null) {
+        lastRead = {
+          "namaSurah": localStorage.getItem('namaSurah'),
+          "nomorSurah": nomorSurah,
+          "ayat": localStorage.getItem('ayat'),
+        };
+      }
+    });
   }
 
   Future changeHandler(String value) async {
@@ -57,36 +67,24 @@ class _HomeState extends State<Home> with WidgetsBindingObserver {
         });
   }
 
-  void tesHandler() async {
-    {
-      await SchedulePrayer().getSchedule();
-      // print("cakep");
-      return;
-
-      // SchedulePrayer().getSchedule(),
-      // print("mant")
-    }
-  }
-
   @override
   Widget build(BuildContext context) {
     return Column(
       children: [
-        // ElevatedButton(
-        //     onPressed: () async =>
-        //         await NotificationHelper.createNewNotification(),
-        //     child: Text("mantap")),
         SearchBox(
           changeHandler: changeHandler,
           hintText: "Cari surah",
         ),
-        localStorage.getItem('nomorSurah') == null ? Container() : LastRead(),
+        lastRead == null
+            ? Container()
+            : LastRead(
+                nomorSurah: int.parse(lastRead!['nomorSurah']),
+                ayat: int.parse(lastRead!['ayat']),
+                namaSurah: lastRead!['namaSurah'],
+              ),
         Expanded(
           child: isLoading
-              ? Center(
-                  child: LoadingAnimationWidget.inkDrop(
-                      color: const Color(0xFF65D6FC), size: 40),
-                )
+              ? LoadingScreen()
               : AllSurah(
                   listSurah: listSurah,
                 ),
@@ -96,25 +94,17 @@ class _HomeState extends State<Home> with WidgetsBindingObserver {
   }
 }
 
-class LastRead extends StatefulWidget {
+class LastRead extends StatelessWidget {
   const LastRead({
     super.key,
+    required this.namaSurah,
+    required this.ayat,
+    required this.nomorSurah,
   });
 
-  @override
-  State<LastRead> createState() => _LastReadState();
-}
-
-class _LastReadState extends State<LastRead> {
-  String lastReadSurah = '';
-
-  @override
-  void initState() {
-    super.initState();
-    setState(() {
-      lastReadSurah = localStorage.getItem('namaSurah') ?? "";
-    });
-  }
+  final String namaSurah;
+  final int nomorSurah;
+  final int ayat;
 
   @override
   Widget build(BuildContext context) {
@@ -122,7 +112,7 @@ class _LastReadState extends State<LastRead> {
       onTap: () => {
         Get.toNamed(
           '/detail-surah',
-          arguments: {"nomor": int.parse(localStorage.getItem('nomorSurah')!)},
+          arguments: {"nomor": nomorSurah},
         )
       },
       child: Container(
@@ -154,23 +144,23 @@ class _LastReadState extends State<LastRead> {
                   Text("Terakhir dibaca",
                       style: TextStyle(fontSize: 18, color: Colors.white)),
                   Text(
-                    "Surah : $lastReadSurah",
+                    "Surah : $namaSurah $nomorSurah:$ayat",
                   )
                 ],
               ),
             ),
-            Positioned(
-              bottom: 0,
-              right: 0,
-              child: SvgPicture.asset(
-                'assets/svg/quran.svg',
-                height: 100,
-                colorFilter: const ColorFilter.mode(
-                  Color.fromARGB(255, 44, 184, 254),
-                  BlendMode.srcIn,
-                ),
-              ),
-            ),
+            // Positioned(
+            //   bottom: 0,
+            //   right: 0,
+            //   child: SvgPicture.asset(
+            //     'assets/svg/quran.svg',
+            //     height: 100,
+            //     colorFilter: const ColorFilter.mode(
+            //       Color.fromARGB(255, 44, 184, 254),
+            //       BlendMode.srcIn,
+            //     ),
+            //   ),
+            // ),
           ],
         ),
       ),

@@ -5,10 +5,12 @@ import 'package:loading_animation_widget/loading_animation_widget.dart';
 import 'package:localstorage/localstorage.dart';
 import 'package:qur_an/models/jadwal.dart';
 import 'package:qur_an/services/jadwal_service.dart';
+import 'package:qur_an/utils/helpers.dart';
 import 'package:qur_an/utils/showAlert.dart';
 import 'package:qur_an/widgets/count_down_sholat.dart';
 import 'package:qur_an/widgets/header_jadwal_sholat.dart';
 import 'package:qur_an/widgets/list_jadwal_sholat.dart';
+import 'package:qur_an/widgets/loading_scree.dart';
 
 class JadwalSholat extends StatefulWidget {
   const JadwalSholat({super.key});
@@ -101,7 +103,7 @@ class _JadwalSholatState extends State<JadwalSholat> {
         }
         setState(() {
           counterString =
-              '${rentang.inHours}:${rentang.inMinutes.remainder(60)}:${rentang.inSeconds.remainder(60)}';
+              '${Helpers.formatTwoDigits(rentang.inHours)}:${Helpers.formatTwoDigits(rentang.inMinutes.remainder(60))}:${Helpers.formatTwoDigits(rentang.inSeconds.remainder(60))}';
         });
       } else {
         DateTime jamSholat = nextTime!["waktu"];
@@ -114,7 +116,7 @@ class _JadwalSholatState extends State<JadwalSholat> {
         if (_isMounted) {
           setState(() {
             counterString =
-                '${rentang.inHours}:${rentang.inMinutes.remainder(60)}:${rentang.inSeconds.remainder(60)}';
+                '${Helpers.formatTwoDigits(rentang.inHours)}:${Helpers.formatTwoDigits(rentang.inMinutes.remainder(60))}:${Helpers.formatTwoDigits(rentang.inSeconds.remainder(60))}';
           });
         }
       }
@@ -152,7 +154,8 @@ class _JadwalSholatState extends State<JadwalSholat> {
 
   @override
   Widget build(BuildContext context) {
-    return Column(
+    return Container(
+        child: Column(
       children: [
         HeaderJadwalSholat(
           fetchJadwal: fetchJadwal,
@@ -160,34 +163,34 @@ class _JadwalSholatState extends State<JadwalSholat> {
         if (city_id == null || jadwalSholat?.data == null)
           Container()
         else
-          Column(
-            children: [
-              CountDownSholat(
-                jadwal: jadwalSholat!.data.jadwal,
-                counterString: counterString == null ? "" : counterString!,
-                nextTime: nextTime,
-              ),
-              Container(
-                  alignment: Alignment.center,
-                  constraints: BoxConstraints(
-                    minHeight: 200,
+          Container(
+            child: isLoading
+                ? LoadingScreen()
+                : Column(
+                    children: [
+                      CountDownSholat(
+                        jadwal: jadwalSholat!.data.jadwal,
+                        counterString:
+                            counterString == null ? "" : counterString!,
+                        nextTime: nextTime,
+                      ),
+                      Container(
+                          alignment: Alignment.center,
+                          constraints: BoxConstraints(
+                            minHeight: 200,
+                          ),
+                          child: ListJadwalSholat(
+                            city_id: city_id!,
+                            jadwal: jadwalSholat,
+                            nextTime: nextTime?['nama'] == null
+                                ? ""
+                                : nextTime!['nama'],
+                            // waktuIsya: isIsyaTimePassed,
+                          ))
+                    ],
                   ),
-                  child: isLoading
-                      ? Center(
-                          child: LoadingAnimationWidget.inkDrop(
-                              color: const Color(0xFF65D6FC), size: 40),
-                        )
-                      : ListJadwalSholat(
-                          city_id: city_id!,
-                          jadwal: jadwalSholat,
-                          nextTime: nextTime?['nama'] == null
-                              ? ""
-                              : nextTime!['nama'],
-                          // waktuIsya: isIsyaTimePassed,
-                        ))
-            ],
           )
       ],
-    );
+    ));
   }
 }

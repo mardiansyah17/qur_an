@@ -55,14 +55,14 @@ class SchedulePrayer {
         format.parse("${jadwal["tanggal"]} ${jadwal['maghrib']}");
     DateTime isya = format.parse("${jadwal["tanggal"]} ${jadwal['isya']}");
     await NotificationHelper.scheduleNotification(
-        subuh, "Waktunya sholat", "Sholat Subuh");
+        1, subuh, "Waktunya sholat", "Sholat Subuh");
     await NotificationHelper.scheduleNotification(
-        dzuhur, "Waktunya sholat", "Sholat Dzuhur");
+        2, dzuhur, "Waktunya sholat", "Sholat Dzuhur");
     await NotificationHelper.scheduleNotification(
-        ashar, "Waktunya sholat", "Sholat Ashar");
+        3, ashar, "Waktunya sholat", "Sholat Ashar");
     await NotificationHelper.scheduleNotification(
-        maghrib, "Waktunya sholat", "Sholat Maghrib");
+        4, maghrib, "Waktunya sholat", "Sholat Maghrib");
     await NotificationHelper.scheduleNotification(
-        isya, "Waktunya sholat", "Sholat Isya");
+        5, isya, "Waktunya sholat", "Sholat Isya");
   }
 }

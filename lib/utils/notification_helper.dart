@@ -78,10 +78,10 @@ class NotificationHelper {
   }
 
   static Future<bool> scheduleNotification(
-      DateTime scheduledTime, String title, String body) async {
+      int id, DateTime scheduledTime, String title, String body) async {
     return await AwesomeNotifications().createNotification(
         content: NotificationContent(
-            id: -1, channelKey: "sholat", title: title, body: body),
+            id: id, channelKey: "sholat", title: title, body: body),
         schedule: NotificationCalendar(
             day: scheduledTime.day,
             month: scheduledTime.month,

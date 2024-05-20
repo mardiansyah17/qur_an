@@ -27,58 +27,72 @@ class _AllSurahState extends State<AllSurah> {
         itemBuilder: (BuildContext context, int index) {
           final ListSurah surah = widget.listSurah[index];
 
-          return GestureDetector(
-            onTap: () => {
-              // localStorage.setItem('nomorSurah', result.data.nomor.toString());
-              Get.toNamed(
-                '/detail-surah',
-                arguments: {"nomor": surah.nomor},
-              )
-              // Get.to(() => const DetailSurah(),
-            },
-            child: Container(
-              padding: const EdgeInsets.all(10),
-              margin: const EdgeInsets.only(top: 10),
-              decoration: const BoxDecoration(
-                border: Border(
-                  bottom: BorderSide(
-                    color: Color.fromRGBO(123, 128, 173, 0.35),
-                    width: 1,
-                  ),
-                ),
-              ),
+          return ItemSurah(surah: surah);
+        },
+      ),
+    );
+  }
+}
+
+class ItemSurah extends StatelessWidget {
+  const ItemSurah({
+    super.key,
+    required this.surah,
+  });
+
+  final ListSurah surah;
+
+  @override
+  Widget build(BuildContext context) {
+    return GestureDetector(
+      onTap: () => {
+        // localStorage.setItem('nomorSurah', result.data.nomor.toString());
+        Get.toNamed(
+          '/detail-surah',
+          arguments: {"nomor": surah.nomor},
+        )
+        // Get.to(() => const DetailSurah(),
+      },
+      child: Container(
+        padding: const EdgeInsets.all(10),
+        margin: const EdgeInsets.only(top: 10),
+        decoration: const BoxDecoration(
+          border: Border(
+            bottom: BorderSide(
+              color: Color.fromRGBO(123, 128, 173, 0.35),
+              width: 1,
+            ),
+          ),
+        ),
+        child: Row(
+          crossAxisAlignment: CrossAxisAlignment.end,
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          children: [
+            Number(nomor: surah.nomor),
+            const SizedBox(
+              width: 10,
+            ),
+            Expanded(
               child: Row(
-                crossAxisAlignment: CrossAxisAlignment.end,
+                crossAxisAlignment: CrossAxisAlignment.start,
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
-                  Number(nomor: surah.nomor),
-                  const SizedBox(
-                    width: 10,
-                  ),
-                  Expanded(
-                    child: Row(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: [
-                        Text(
-                          surah.namaLatin,
-                          style: const TextStyle(
-                            fontSize: 18,
-                          ),
-                        ),
-                        Text(
-                          surah.nama,
-                          style: const TextStyle(
-                              fontSize: 18, color: AppColors.primaryColor),
-                        ),
-                      ],
+                  Text(
+                    surah.namaLatin,
+                    style: const TextStyle(
+                      fontSize: 18,
                     ),
+                  ),
+                  Text(
+                    surah.nama,
+                    style: const TextStyle(
+                        fontSize: 18, color: AppColors.primaryColor),
                   ),
                 ],
               ),
             ),
-          );
-        },
+          ],
+        ),
       ),
     );
   }
